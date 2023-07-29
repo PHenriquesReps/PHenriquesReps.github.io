@@ -1,0 +1,192 @@
+<html>
+	<head>
+		<title>Pedro Henriques</title>
+		<link rel="icon" type="image/x-icon" href="/images/icon.png">
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+	</head>
+	<body class="single is-preload">
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Header -->
+                <header id="header">
+                    <h1><a href="index.html">Pedro Henriques</a></h1>
+                    <nav class="links">
+                        <ul>
+                            <li><a href="projects.html">Projects</a></li>
+                            <li><a href="posts.html">Posts</a></li>
+                            <li><a href="activities.html">Activities</a></li>								
+                        </ul>
+                    </nav>				
+                </header>
+
+				<!-- Main -->
+				<div id="main">
+
+					<!-- Post -->
+						<article class="post1">
+							<header>
+								<div class="title">
+									<h2>Data Engineering Lifecycle</h2>
+								</div>
+								
+								<div class="meta">
+									<time class="published" datetime="2023-07-28">July 28, 2023</time>
+									<a href="index.html" class="author"><span class="name">Pedro Henriques</span><img src="images/Foto_Pass.jpeg" alt="" /></a>
+								</div>
+							</header>
+							<span class="image featured1"><img src="images/data_engineering_lifecycle.png" alt="" /></span>
+							<p>
+								For the first publication, we will talk about the Data Engineering Lifecycle. The data engineering lifecycle may have different structures or naming conventions in other articles or publications, but the main concepts should remain the same since we are talking about the same process or goal.
+								So, what is the purpose and place of the Data Engineer in the company?
+							</p>
+							<blockquote>
+								“Data Engineering is the development, implementation, and maintenance of systems and processes that take in raw data and produce high-quality, 
+								consistent information that supports downstream use cases, such as analysis and machine learning” 
+								<a href="phttps://www.oreilly.com/library/view/fundamentals-of-data/9781098108298/?_gl=1*145n3xj*_ga*MTc0MjE3MTAyLjE2Njk3NDA4ODQ.*_ga_092EL089CH*MTY2OTc0NjE2Mi4yLjEuMTY2OTc0NjIyNC42MC4wLjA."><em>Fundamental of Data Engineering</em>></a>
+							</blockquote>
+
+							<p>To achieve this goal, the data engineer must have a broad set of skills, for example, programming skills, usually in Python and SQL, data modeling, and have knowledge to work with different tools, such as Snowflake, BigQuery, Apache Spark and dbt. 
+								But we can talk about that in another post. 
+								However, despite these skills and technologies they need to master, technology is not the focus of a Data Engineer, 
+								but rather the use cases and the data serving. This is why understanding the data engineering lifecycle is so important, as it will make you think about where data starts is journey,
+								 where it ends and how data will flow through the pipeline, whith that you will be able to see and understand the big picture. 
+							</p>
+							<h3>The Data Engineering Lifecycle 🔁</h3>
+							<p>In <a href="phttps://www.oreilly.com/library/view/fundamentals-of-data/9781098108298/?_gl=1*145n3xj*_ga*MTc0MjE3MTAyLjE2Njk3NDA4ODQ.*_ga_092EL089CH*MTY2OTc0NjE2Mi4yLjEuMTY2OTc0NjIyNC42MC4wLjA."><em>Fundamental of Data Engineering</em></a>
+								 Matt and his co-author, Joe Reis, introduced the lifecycle concept. 
+								 They take the data engineering pipeline, and brake it into critical/fundamental stages that together form the data engineering lifecycle, that can turn raw data into a useful end product, ready for consumption. 
+								 Despite the structure of the diagram, the separation and arrangement of the steps, the data engineering lifecycle is not always so clean and with a continuous flow, 
+									the steps may repeat themselves, occur in a different order, overlap each other, it will depend on the case.
+								</p>
+								<h3><strong>Main Stages</strong></h3>
+								<h4>Generation</h4>
+								<p>
+									Is the first stage of the lifecycle, is the origin of data. This data is created in a variety of platforms, that are external to the lifecycle, so the data engineer rarely has control over any of them. 
+									But, if it’s external why appear in the cycle, because despite of that, these platforms, databases, files are the generators of the data that will be used in the cycle, and data engineers must have a working understanding of how these systems work, generate the data, and the frequency, velocity and variety of the data.							
+								</p>
+								<p>
+									<em><b>Key elements:</b></em>
+									Understand the way source systems work. 
+								</p>
+
+								<h4>Storage</h4>
+								<p>
+									The place where the data will be stored. Storage is present in the entire data engineering lifecycle, often occurring in multiple places in the pipeline. 
+									The storage solution, and the way data is stored can impact how this data is used in all of the stages.							
+								</p>
+								<p>
+									<em><b>Key elements:</b></em>
+									Choosing the storage solution. 
+								</p>
+
+								<h4>Ingestion</h4>
+								<p>
+									Connects to the source systems and bring the data from these systems to the pipelines. This is still raw data, but know we are in a place to clean, and transform it. 
+									We can process this data using batch ingestion or streaming ingestion (this too, will be the topic of another post).							
+								</p>
+								<p>
+									<em><b>Key elements:</b></em>
+									In which way are the data being ingested. 
+								</p>
+
+								<h4>	Transformation</h4>
+								<p>
+									In this stage, data engineers start working with the data. The raw data that was ingested needs to be changed from its original form into something useful. 
+									Here is where we can change the data formats, apply business logic, and model the data. Due to that, in this stage is where data starts to get some value for the business. 							
+								</p>
+								<p>
+									<em><b>Key elements:</b></em>
+									Understand and standardize the implementation of business logics;
+									Data Modeling;
+
+								</p>
+
+								<h4>Serving</h4>
+								<p>
+									In this final stage the data – that was stored, ingested and transformed – is coherent and ready to be served to the end users, so that the data starts generating value. 
+									This data could be used, for example, in Analytics, Machine Learning, Business Intelligence.							
+								</p>
+								<p>
+									<em><b>Key elements:</b></em>
+									Ensure the use of data.
+								</p>
+
+								<h3><strong>Undercurrents</strong></h3>
+								<p>These six concepts act as a foundation and run through various stages of the data engineering lifecycle. 
+									These concepts are valuable for each phase and should be kept in mind when going through them.
+								</p>
+
+								<h4>Security</h4>
+								<p>
+									As data engineers security must be a top priority, that’s why is the first undercurrent concept. At every step of the lifecycle, we must keep private or sensitive data private and protected from misuse and leaks. 
+									That’s why we must give users only the access they need to their jobs and nothing more, and only for the necessary duration to do it.							
+								</p>
+								<h4>Data Management</h4>
+								<p>
+									<blockquote>“Is the development, execution, and supervision of plans, policies, programs, and practices that deliver, control, protect, and enhance the value of data and information assets throughout their lifecycle” 
+									<a href="https://www.dama.org/cpages/body-of-knowledge">DAMA - DMBOk</a>. </blockquote> 							
+									Is the set of best practices that data engineers will use to accomplish their tasks, technically and strategically. 
+									It is a cohesive framework that can be adopted to ensure that the organization gets value from the data and handles it properly.
+								</p>
+								<h4>DataOps</h4>
+								<p>
+									It aims to improve the release and quality of data products. Encompasses a collection of technical practices, workflows, cultural norms, and architectural patterns that will enable rapid innovation and experimentation, delivering new insights to customers with increasing velocity, higher data quality and lower error rates, and clear measurement, monitoring, and transparency of results. It is a set of cultural habits, which need to be implemented and adapted to each organization. 
+									It has three core technical elements: Automation, Observability and Monitoring, and Incident Response.							
+								</p>
+								<h4>Data Architecture</h4>
+								<p>
+									Understand the bigger picture, the architecture must reflect the current and future state of the data systems, that support an organization’s long-term data needs and strategy.							
+								</p>
+								<h4>Orchestration</h4>
+								<p>
+									Is the process of coordinating many jobs to run as quickly and efficiently as possible on a scheduled cadence.							
+								</p>
+								<h4>Software Engineering</h4>
+								<p>
+									This always has been a central skill for data engineers. The tools are not the focus and don’t define data engineers, but they have to be proficient in them.							
+								</p>
+
+								<p>
+									These are the definitions and some considerations about the main concepts of the model that I think best represents the data engineer lifecycle. 
+									As we had only a brief introduction to the concepts of each of these stages, in the next posts we will go deeper into each of them, so that we can understand them completely. 
+								</p>
+
+								<p>
+									My goal in doing this is to shift the focus a bit from the tools, and focus more on the big picture, the concepts and practices behind them, so that we as data engineers can make decisions planning for the future based on the right concepts and ideas. 
+									Of course, we need to know the tools and how to work with them, but if we know what is behind and why we do what we do, the understanding of the role of the tool and its function in the lifecycle, it will make us adapt faster to new situations, tools and environments, and contribute to the growth of the department we are in.
+								</p>
+
+								<p>
+									I hope you enjoyed it, see you soon. 👋
+								</p>
+
+<!--
+
+									<h4>Blockquote</h4>
+									<blockquote>Fringilla nisl. Donec accumsan interdum nisi, quis tincidunt felis sagittis eget tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. 
+										Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan faucibus. 
+										Vestibulum ante ipsum primis in faucibus lorem ipsum dolor sit amet nullam adipiscing eu felis.</blockquote>
+
+									<h4>Preformatted</h4>
+									<pre><code>i = 0;
+
+while (!deck.isInOrder()) {
+  print 'Iteration ' + i;
+  deck.shuffle();
+  i++;
+}
+
+print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
+
+							</article>
+-->
+
+					</div>
+
+
+	</body>
+</html>
