@@ -4041,7 +4041,7 @@ input, select, textarea {
 				
 				  #header .links ul li {
 					display: inline-block; /* Change back to inline-block display for li elements */
-					margin-left: 0.6em; /* Add some spacing between the links */
+					margin-left: 0.4em; /* Add some spacing between the links */
 					padding: 0.3em; /* Remove default padding */
 					
 				  }
