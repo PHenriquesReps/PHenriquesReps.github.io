@@ -3673,6 +3673,40 @@ input, select, textarea {
 	.listpostright > p {
 		margin: 0 0 1em 0;
 	}	
+
+
+
+
+	@media screen and (max-width: 767px) {
+			.row {
+			  flex-direction: column; /* Stack columns on top of each other */
+			}
+		  
+			.row > .listpostleft,
+			.row > .listpostright {
+			  width: 100%; /* Make each column take full width in mobile view */
+			  margin: 0; /* Reset the margin to remove any potential conflicts */
+			}
+			.listpostleft,
+  			.listpostright {
+  			  padding: 2em; /* Adjust the padding for better spacing on mobile */
+  			}
+		
+  			.listpostleft > footer,
+  			.listpostright > footer {
+  			  flex-direction: column; /* Stack footer content on top of each other */
+  			}
+		
+  			.listpostleft > footer .stats li,
+  			.listpostright > footer .stats li {
+  			  margin: 0; /* Remove margin between stats items in mobile view */
+  			}
+		
+  			.listpostleft > p,
+  			.listpostright > p {
+  			  margin: 0 0 1em 0; /* Adjust spacing for paragraphs on mobile */
+  			}
+	}
 		
 /* Section/Article */
 
