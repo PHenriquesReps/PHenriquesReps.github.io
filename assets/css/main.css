@@ -4009,7 +4009,7 @@ input, select, textarea {
 					flex-direction: row; /* Align elements in the same line */
 					justify-content: space-between; /* Add spacing between h1 and links */
 					align-items: center; /* Align elements vertically at the center */
-					padding: 0 0.5em; /* Add some padding to the header for better spacing */
+					padding: 0 0.3em; /* Add some padding to the header for better spacing */
 				  }
 				
 				  #header h1 {
@@ -4035,14 +4035,14 @@ input, select, textarea {
 					align-items: center; /* Vertically align the links with the h1 value */
 					padding: 0; /* Remove default padding */
 					margin: 0; /* Remove default margin */
-					padding-left: 0.4em;
+					padding-left: 0.3em;
 					border-left: solid 1px rgba(160, 160, 160, 0.3);
 				  }
 				
 				  #header .links ul li {
 					display: inline-block; /* Change back to inline-block display for li elements */
 					margin-left: 1em; /* Add some spacing between the links */
-					padding: 0.4em; /* Remove default padding */
+					padding: 0.3em; /* Remove default padding */
 					
 				  }
 				
