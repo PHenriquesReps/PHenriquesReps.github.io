@@ -1,0 +1,174 @@
+<html>
+	<head>
+		<title>Pedro Henriques</title>
+		<link rel="icon" type="image/x-icon" href="/images/icon.png">
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+	</head>
+	<body class="single is-preload">
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Header -->
+                <header id="header">
+                    <h1><a href="index.html">Pedro Henriques</a></h1>
+                    <nav class="links">
+                        <ul>
+                            <li><a href="projects.html">Projects</a></li>
+                            <li><a href="posts.html">Posts</a></li>
+                            <li><a href="activities.html">Activities</a></li>								
+                        </ul>
+                    </nav>				
+                </header>
+
+				<!-- Main -->
+				<div id="main">
+
+					<!-- Post -->
+						<article class="post1">
+							<header>
+								<div class="title">
+									<h2>Data Processing</h2>
+								</div>
+								
+								<div class="meta">
+									<time class="published" datetime="2023-08-17">August 17, 2023</time>
+									<a href="index.html" class="author"><span class="name">Pedro Henriques</span><img src="images/Foto_Pass.jpeg" alt="" /></a>
+								</div>
+							</header>
+							<span class="image featured1"><img src="images/DataProcess.png" alt="" /></span>
+							<p>
+								In this post, we'll dive into the world of data processing, exploring concepts such as streaming processing, batch processing, real-time processing, and micro-batching. 
+							</p>							
+
+							<h3>Data Ingestion: Where It Al Begins 🥣</h3>
+							<p>
+								The journey of data processing starts with data ingestion, the phase where we gain control over the data flow. During this critical stage, we establish connections with data sources and channel data into our processing pipelines. Here, we shape the way data will be processed, gaining insights into its scale and complexity.
+								The data we have to deal with is inherently streaming, data is nearly always produced and updated continuously at its source. 
+								The difference is how we process the data, and provide it for downstream systems. 
+								
+								</p>
+
+							<h3>Batch Processing 🧱</h3>
+							<p>
+								The most common approaches to data processing is batch processing. In this method, data is collected over time and processed in large chunks at scheduled intervals. While batch processing might introduce some latency, it is a robust technique for handling significant volumes of data. 
+								The process has a distinct start and end point, and it doesn't process data in a continuous flow. 
+									
+							</p>
+
+
+							<h3>Streaming Processing 🍃</h3>
+							<p>
+								Refers to the real-time or near-real-time processing of data. Streaming processing emerges as a powerful technique for handling data that is generated and updated continuously at its source. In contrast to batch processing, which accumulates data over time for scheduled processing, streaming processing treats data as a constant flow of events or records. 
+								As new data arrives, it is processed incrementally in small units, ensuring timely insights. 
+							</p>
+
+
+							<h3>Micro Batching (Near real-time) ⚖️</h3>
+							<p>
+								A compelling compromise between traditional batch processing and real-time streaming is micro-batching. In this approach, data is collected and processed in small, finite-sized batches at regular intervals or upon reaching a predefined data volume. While not true real-time streaming, micro-batching significantly reduces processing latency compared to traditional batch processing. 
+								Despite working with discrete batches, micro-batching bridges the gap between real-time streaming and batch processing.
+							</p>
+
+
+							<h3>Real-time Processing'⏰</h3>
+							<p>
+								Real-time processing represents a subset of streaming processing, prioritizing minimal latency and instantaneous response times. 
+								In a true real-time processing system, each event is swiftly processed without delay, catering to dynamic conditions and enabling immediate actions.
+							</p>
+							
+
+							<h3>Dependencies and Constraints</h3>
+							<p>
+								Both batch and streaming processing approaches come with dependencies and constraints that warrant careful consideration. 
+							</p>
+
+							<section>
+                                <div class="row">
+                                    <div class="col-6 col-12-medium">
+                                        <h4>Upstream</h4>
+                                        <ul class="alt">
+                                            <li>•	Data Availability </li>
+											<li>•	Extraction Method </li>
+											<li>•	Data Size per Extraction</li>
+											<li>•	Data Structure Changes</li>
+                                        </ul>
+                                        <h4>Downstream</h4>
+                                        <ul class="alt">
+                                            <li>•	Align processing with downstream systems' transaction timing. </li>
+                                        </ul>
+										<h4>Adherence to Data Contract Requirements</h4>
+                                        <ul class="alt">
+                                            <li>•	Fulfill data contract specifications, covering aspects like latency, structure, and availability.</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                </section>
+
+								<h3>Decoding Real-Time Data Processing: What to Consider and Why</h3>
+							<p>
+								The technology landscape is undergoing a transformation towards democratizing real-time streaming processes. Organizations aspire to access data rapidly, circumventing the complexities and costs associated.
+								However, we haven't reached that tipping point yet. Implementing a streaming solution requires a thorough evaluation of trade-offs. Here are some factors that need to be considered:
+
+							</p>
+
+							<section>
+                                <div class="row">
+                                    <div class="col-6 col-12-medium">
+                                        <ul class="alt">
+                                            <li>•	Does the use case in question require the processing of streaming data in real time? </li>
+											<li>•	Is this processing required at the millisecond, second level?</li>
+											<li>•	Are the downstream systems prepared to receive this data at the same speed as it is created and sent?</li>
+											<li>•	What is the speed of data generation and the size of data I can pull from the data sources? </li>
+											<li>•	Will this streaming approach cost more in terms of time, money, maintenance, and downtime, than a batch alternative?</li>
+											<li>•	Do we have the knowledge and expertise within the organization to do this?</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                </section>
+
+								<p>
+									Despite these issues, you should think about whether real-time streaming is a current need that will bring tangible benefits to the organization, or whether you want it because it's trendy, regardless of all the advantages it could bring.
+								</p>
+
+
+								<h3>Considerations and conclusion</h3>
+								<p>
+									Most common use cases don't require real-time streaming and work perfectly well with batch processing, or even using a micro batching approach. Other use cases will require a straightforward stream approach. Embracing the right technology is advantageous when it aligns with objectives and use cases. However, when it doesn't, simplicity remains a valuable guiding principle.
+									
+								</p>
+								<p>
+									In a world where data insights drive innovation, understanding the nuances of data processing approaches is crucial. Whether you're riding the wave of streaming processing, harnessing real-time capabilities, sticking with the reliability of batch processing, or choosing the right compromise, you should always take informed decisions.
+								</p>
+
+								<p>
+									I hope you enjoyed it, see you soon. 👋
+								</p>
+
+<!--
+									<h4>Blockquote</h4>
+									<blockquote>Fringilla nisl. Donec accumsan interdum nisi, quis tincidunt felis sagittis eget tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. 
+										Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan faucibus. 
+										Vestibulum ante ipsum primis in faucibus lorem ipsum dolor sit amet nullam adipiscing eu felis.</blockquote>
+
+									<h4>Preformatted</h4>
+									<pre><code>i = 0;
+
+while (!deck.isInOrder()) {
+  print 'Iteration ' + i;
+  deck.shuffle();
+  i++;
+}
+
+print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
+
+							</article>
+-->
+
+					</div>
+
+
+	</body>
+</html>
