@@ -1,0 +1,204 @@
+<html>
+	<head>
+		<title>Pedro Henriques</title>
+		<link rel="icon" type="image/x-icon" href="/images/icon.png">
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+	</head>
+	<body class="single is-preload">
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Header -->
+                <header id="header">
+                    <h1><a href="index.html">Pedro Henriques</a></h1>
+                    <nav class="links">
+                        <ul>
+                            <li><a href="projects.html">Projects</a></li>
+                            <li><a href="posts.html">Posts</a></li>
+                            <li><a href="activities.html">Activities</a></li>								
+                        </ul>
+                    </nav>				
+                </header>
+
+				<!-- Main -->
+				<div id="main">
+
+					<!-- Post -->
+						<article class="post1">
+							<header>
+								<div class="title">
+									<h2>Data Engineering Lifecycle</h2>
+								</div>
+								
+								<div class="meta">
+									<time class="published" datetime="2023-09-18">September 18, 2023</time>
+									<a href="index.html" class="author"><span class="name">Pedro Henriques</span><img src="images/Foto_Pass.jpeg" alt="" /></a>
+								</div>
+							</header>
+							<span class="image featured1"><img src="images/spark.png" alt="" /></span>
+							<p>
+								Spark is a general-purpose, in-memory, computing engine.
+                                <br>
+                                General Purpose, because it’s possible to do everything with it. Using the same code, no need to learn or know how to work with different tools. 
+                                In memory, because it processes the data in memory, using the disk in the best-case scenario only when retrieving or saving data.
+                                Compute Engine, because it’s specialized in computation.
+                                <br>
+                                Spark Abstracts away the notion that we are writing the code to run across the cluster.
+                                Is an open-source computing engine, that leverages distributed computation to process the data. 
+
+							</p>
+
+                            <section>
+                                <div class="row">
+                                    <div class="col-6 col-12-medium">
+                                        <h4>We have two layers in Spark</h4>
+                                        <ul class="alt">
+                                            <li>•	Spark Core APIs  </li>
+											<li>•	Higher Level APIs </li>
+                                        
+                                    </div>
+                                </div>
+                            </section>
+
+                            <p>
+                                Internally both layers will work with RDDs, the code we write in the higher level will be converted to RDDs.
+                                In this post, we will be focusing on the Spark Core APIs, on the RDD level.
+
+                            </p>
+
+                            <h5>
+                                What are RDDs?
+
+                            </h5>
+                            <p>
+                                RDDs or Resilient Distributed Systems, are the basic units that hold the data in Apache Spark.
+                                Resilient – because it’s resilient to failures. If we lose an RDD we can see on the DAG visualization where we lose it, and restart from there.
+                                <br>
+                                The RDD is immutable, which means we cannot make changes to an existing RDD, if we try to change it, we will end up creating a new one.
+                            </p>
+
+                            <h5>
+                                Spark Execution Plan
+                            </h5>
+
+                            <section>
+                                <div class="row">
+                                    <div class="col-6 col-12-medium">
+                                        <h4>There are two kinds of operations in Apache Spark</h4>
+                                        <ul class="alt">
+                                            <li>•	Transformations  </li>
+											<li>•	Actions </li>
+                                        
+                                    </div>
+                                </div>
+                            </section>
+
+                            <h5>
+                                We have two types of transformations
+                            </h5>
+
+                            <div class="image">
+                                <img src="images/Transformations.png" alt="" />
+                            </div>
+
+                            <p>
+                                <b>Wide transformations:</b> are transformations where the data will be shuffled.
+                            </p>
+                            <p>
+                                <b>Narrow transformations:</b> transformations where the data will not be shuffled
+                            </p>
+                            <p>
+                                The transformations are lazy, which means that, when we write a transformation in Spark, that transformation is not executed immediately, the data is not materialized instantly on the RDD.
+                                <br>
+                                The transformations we perform on the different RDDs will be added to the Execution Plan, on the execution plan we will have access to the job(s), the DAG, directed acyclic graph (gives us the lineage), 
+                                and all the information about the transformations and actions performed, with detailed information on each one of them.
+
+                            </p>
+
+                            <p>
+                                When an action is called on the RDD, Spark will create a job, access the execution plan, and execute the transformations and action in the best and most optimized way possible.
+                                <br>
+                                A <b>job</b> in Spark is a set of tasks that are executed in a distributed computing environment. A job is created when an action is called on an RDD (number of jobs = number of actions).
+                                <br>
+                                Each job is divided into <b>stages</b>, stages represent a set of tasks that can be executed together. A stage is created when a wide transformation is called on an RDD (number of stages = number of wide transformations + 1)
+                                <br>
+                                Each stage is composed of <b>tasks</b>, and the number of tasks is equal to the number of partitions we have.
+                                <br>
+                                The number of partitions is equal to the number of blocks we have divided our file into (normally 128 mb, each). However, in Spark, we have a variable that determines the default of the minimum value of partitions, which normally is equal to 2 partitions. That means if the file generates 1 block, Spark will still create two partitions with that data.
+
+                            </p>
+
+                            <h5>
+                                Example
+                            </h5>
+
+                            <p>
+                                Let’s imagine we want to know the count of each word in a data file, first, we will load the file, then we will apply a flat map, a map, a reduce by key, and a sort transformation, and finally, we will collect (an action) the data, to start the execution plan and retrieve the data.
+                            </p>
+
+                            
+                            <p>
+                                <b>Transformations and Actions</b>
+                            </p>
+
+                            <div>
+                                <img style=" display: block; width:90%; margin-left: auto; margin-right: auto;" src="images/exp_all.PNG" alt="" />
+                                <br>
+                            </div>
+                          
+							<p>
+                                After performing the action we obtain a list with the count of the frequency of each word, sorted from the most used to the least used words.
+                            </p>
+
+                            <p>
+                                Now lets look into the DAG that was generated for this example:
+                            </p>
+
+                            <h5>
+                                DAG Visualization 
+                            </h5>
+
+                            <div>
+                                <img style=" display: block; width:45%; margin-left: auto; margin-right: auto;" src="images/DAG.png" alt="" />
+                                <br>
+                            </div>
+
+                            <p>
+                                We can see we have 1 action (collect()) that creates one job. 
+                                <br>
+                                We have 3 stages because we have two wide transformations (reduceByKey and sortBy) + 1.
+                                <br>
+                                We have 2 tasks in each stage, representing a total of 4 tasks on the job.
+
+                            </p>
+
+                            <p>
+                                This is a small post about how the spark RDD and execution plan works, hope you have enjoyed it. 
+                            </p>
+
+
+
+                </div>
+
+            </div>
+
+            <script>
+                function copyToClipboard() {
+                    const codeElement = document.querySelector('.code-section code');
+                    const codeToCopy = codeElement.textContent;
+        
+                    const textArea = document.createElement('textarea');
+                    textArea.value = codeToCopy;
+                    document.body.appendChild(textArea);
+                    textArea.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(textArea);
+        
+                    alert('Code copied to clipboard');
+                }
+            </script>
+    </body>
+</html>
