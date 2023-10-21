@@ -1,0 +1,273 @@
+<html>
+	<head>
+		<title>Pedro Henriques</title>
+		<link rel="icon" type="image/x-icon" href="/images/icon.png">
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+	</head>
+	<body class="single is-preload">
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Header -->
+                <header id="header">
+                    <h1><a href="index.html">Pedro Henriques</a></h1>
+                    <nav class="links">
+                        <ul>
+                            <li><a href="projects.html">Projects</a></li>
+                            <li><a href="posts.html">Posts</a></li>
+                            <li><a href="activities.html">Activities</a></li>								
+                        </ul>
+                    </nav>				
+                </header>
+
+				<!-- Main -->
+					<div id="main">
+
+						<!-- Post -->
+							<article class="post">
+								<header>
+									<div class="title">
+										<h2><a href="#">Spotify End-to-End Project</a></h2>
+									</div>
+									<div class="meta">
+										<time class="published" datetime="2023-10-21">October 21, 2023</time>
+										<a href="#" class="author"><span class="name">Pedro Henriques</span><img src="images/Foto_Pass.jpeg" alt="" /></a>
+									</div>
+								</header>
+								<span class="image featured"><img src="images/spotify.png" alt="" /></span>
+
+								<p>
+									In this project, we will build an ETL pipeline using Spotify API on AWS. 
+									The pipeline will retrieve data from Spotify API, transform it to a desired format, and load it into an AWS data store.
+									You can access the entier code for this project on my GitHub Page - <a href="https://github.com/PHenriquesReps/spotify-end-to-end-dataengineering-project">Spotify End-to-End Project</a>
+
+	
+								</p>
+
+								<h3>
+									Objective
+								</h3>
+
+								<p>
+									This project was developed with AWS services, to alloe me explore it's products, get familiar with it. On this porject I explore some funtionalities,
+									dependencies between services, and the connections between them. 
+									With this project I wanted to create a Data Engineer End-to-End Project, a fully automated production project, that extracts, transforms and loads the data for analysis.
+									<br>
+
+									<b>Use Case:</b> Extratc data from the artists, songs and albums, that are present in the Global Top 50 playlist. This playlist is refreshed daily based on the streams of each track. 
+										
+								</p>
+								
+								<h3>
+									About the Dataset/API
+								</h3>
+                                <p>
+									For this data we retrive data from the <a href="https://open.spotify.com/playlist/37i9dQZEVXbNG2KDcFcKOF">Spotify API</a>, about the albuns, songs, and asrtist that are present in the Global Top 50 playlist.
+								</p>
+
+								<h3>
+									Services Used
+								</h3>
+
+								<p>
+									<b>- Amazon S3 (Simple Storage Service):</b> is a highly scalable object storage service that can store and retrieve any data anywhere on the web. It is commonly used to store and distribute large media files, data backups, and static website files.
+									<br><br>
+									<b>- AWS Lambda:</b> is a serverless computing service that lets you run your code without managing servers. You can use Lambda to run code responding to events like changes in S3, DynamoDB, or other AWS services.
+									<br><br>
+									<b>- Amazon CloudWatch:</b> is a serverless computing service that lets you run your code without managing servers. You can use Lambda to run code responding to events like changes in S3, DynamoDB, or other AWS services.
+									<br><br>
+									<b>- AWS Glue Crawler:</b> is a fully managed service that automatically crawls your data sources, identifies data formats, and infers schemas to create an AWS Glue Data Catalog.
+									<br><br>
+									<b>- AWS Glue Data Catalog:</b> is a fully managed metadata repository that makes it easy to discover and manage data in AWS. You can use the Glue Data Catalog with other AWS services, such as Athena.
+									<br><br>
+									<b>- Amazon Athena:</b> is an interactive query service that makes it easy to analyze data in Amazon S3 using standard SQL. You can use Athena to analyze data in your Glue Data Catalog or in other S3 buckets.
+
+								</p>
+
+								<h3>
+									Architecture
+								</h3>
+
+								<div>
+									<img style=" display: block; width:65%; margin-left: auto; margin-right: auto;" src="images/spotify_architecture.png" alt="" />
+									<br>
+								</div>
+
+
+
+								<h3>
+									Project Execution Plan
+								</h3>
+
+								<p>
+									<b>1- Create the bucket and the respective folder structure on S3</b>
+									<br>
+									For this structire we create 2 main folders, the <em>raw_data</em> folder, and the <em>transformed_data</em> folder, to very sugestive names, that mention the data that will be stored inside of each folder.
+									Inside the <em>raw_data</em> folder, we will have two more folders, the <em>to_process</em>, that will hold the raw data that was not processed yet, and the <em>processed</em> folder that contains the raw extracted data that was already processed.
+									<br>
+									Inside the transformed_data folder, we have 3 folders, representing the 3 instances we are pulling data to
+								</p>
+
+								<p>
+									<b>2- Extract the data from Spotify API</b>
+									<br>
+									Create the request extract the data from the Spotify API, and store it in a raw format on the <em>to_process</em> folder.
+
+									<br><br>
+
+									On this part I worked with two different packages <em>spotipy</em> to connect and extract the data from Spotify and <em>boto3</em> that is used to to create, configure, and manage AWS services, on this particular project was used to interact with the S3 bucket created. 
+									<br>
+									We create a spotipy object, that allow us to connect to spotify and extract the data using it's internal functions (<em>playlist_tracks</em>).
+								</p>
+									
+<pre><code>
+client_credentials_manager = SpotifyClientCredentials(client_id = client_id, client_secret = client_secret)
+sp = spotipy.Spotify(client_credentials_manager = client_credentials_manager)		# create the connected object 
+
+data = sp.playlist_tracks(playlist_URI)		# pass the id of the playlist
+		
+</code></pre>
+
+								<p>
+									The boto3 object, that allow us to connect to the S3 bucket and load the raw data to a specific folder.
+								</p>
+<pre><code>
+client = boto3.client('s3')
+
+filename = 'spotify_raw_' + str(datetime.now()) + ".json"
+
+client.put_object(
+    Bucket='spotify-etl-project-ph',
+    Key='raw_data/to_processe/' + filename,
+    Body=json.dumps(data)
+    )
+	
+</code></pre>
+
+
+
+								<p>
+									<b>3- Transform and Load</b>
+									<br>
+									First we will se if exist files inside the <em>to_process</em> folder. If exist, we will extract the data of each.
+								
+								</p>
+								<pre><code>
+s3 = boto3.client('s3')
+Bucket='spotify-etl-project-ph'
+Key='raw_data/to_processe/'
+									
+for file in s3.list_objects(Bucket=Bucket, Prefix=Key)['Contents']:
+	file_key = file['Key']
+	if file_key.split('.')[-1] == "json":
+		response = s3.get_object(Bucket = Bucket, Key = file_key)       # get the file information
+		content = response['Body']      # retrieve the data inside the Body
+		jsonObject = json.loads(content.read())         # get the actual data
+</code></pre>
+
+								<p>
+									Then from this data we retrieved the fields from the artists, songs, and albums to do further analyses.
+								</p>
+
+								<pre><code>
+# Geting the albums data
+def album(data):
+	album_list = []
+	for row in data['items']:
+		album_id = row['track']['album']['id']
+		album_name = row['track']['album']['name']
+		album_release_date = row['track']['album']['release_date']
+		album_total_tracks = row['track']['album']['total_tracks']
+		album_url = row['track']['album']['external_urls']['spotify']
+	
+	#creating a dictionary to store the looped data
+		album_elements= {'album_id': album_id, 'name': album_name, 'release_date': album_release_date, 
+						 'total_tracks': album_total_tracks, 'url': album_url}
+						 
+	# add that data to the list
+		album_list.append(album_elements)
+	
+	return album_list
+</code></pre>
+
+
+
+								<p>
+									<b>4- Add Triggers</b>
+									<br>
+									The two triggers were added to the pipeline, automating the pipeline run, based on the required schedule (weekly), and on the existence of new data on the to_process folder. 
+									<br><br>
+									<b>EventBridge (CloudWatch Events)</b>, this first trigger is used to activate the lambda functio that will extract the data from the Spotify API, on a weekly basis.
+									<br><br>
+									<b>S3</b> this trigger is launched when there are JSON files in the to_process folder and will activate the lambda function.
+									<br><br>
+									Note: To complete this step we need two different permissions: 
+									<br>
+									<em>AmazonS3FullAccess</em> - allows the connection between the lambda functions and the S3 buckets  
+									<br>
+									<em>AWSLambdaRole</em> - allows the two lambda functions to communicate with each other.
+								</p>
+
+
+								<p>
+									<b>5/6- Create Crawler and the tables on AWS Glue Data Catlog</b>
+									<br>
+									The crawler was used to read the data from the transformed data sources, and infered the schema, and the metadta of each one of them. Creating tables on the Data Catalog.
+								</p>
+
+
+								<p>
+									<b>7- Analyse the Data</b>
+									<br>
+									Querying the Data using AWS Athena, using plain SQL.
+								</p>
+
+								<h3>
+									Conclusion
+								</h3>
+								<p>
+									In this project I learn some fundamental concepts when working with AWS, allowing me to explore a lot of services available on the platform. 
+									By architecting a robust, scalable, and efficient data extraction pipeline, we have harnessed the capabilities of AWS to gather, process, and analyze Spotify data.
+									As we look ahead, this project serves as a testament to the endless possibilities that can be unlocked by harnessing the synergy of cloud computing and rich data sources like Spotify. 
+									<br><br>
+									Hope you have liked it. See you soon.
+								</p>
+<!--								
+
+									<h4>Blockquote</h4>
+									<blockquote>Fringilla nisl. Donec accumsan interdum nisi, quis tincidunt felis sagittis eget tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. 
+										Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan faucibus. 
+										Vestibulum ante ipsum primis in faucibus lorem ipsum dolor sit amet nullam adipiscing eu felis.</blockquote>
+
+									<h4>Preformatted</h4>
+									
+<pre><code>{'href': 'https://api.spotify.com/v1/playlists/37i9dQZEVXbNG2KDcFcKOF/tracks?offset=0&limit=100&additional_types=track',
+'items': [{'added_at': '2023-10-20T08:54:06Z',
+  'added_by': {'external_urls': {'spotify': 'https://open.spotify.com/user/'},
+   'href': 'https://api.spotify.com/v1/users/',
+   'id': '',
+   'type': 'user',
+   'uri': 'spotify:user:'},
+  'is_local': False,
+  'primary_color': None,
+  'track': {'album': {'album_type': 'album',
+	'artists': [{'external_urls': {'spotify': 'https://open.spotify.com/artist/4q3ewBCX7sLwd24euuV69X'},
+	  'href': 'https://api.spotify.com/v1/artists/4q3ewBCX7sLwd24euuV69X',
+	  'id': '4q3ewBCX7sLwd24euuV69X',
+	  'name': 'Bad Bunny',
+	  'type': 'artist',
+	  'uri': 'spotify:artist:4q3ewBCX7sLwd24euuV69X'}]
+</code></pre>
+
+-->
+
+						</article>
+
+					</div>
+
+
+	</body>
+</html>
