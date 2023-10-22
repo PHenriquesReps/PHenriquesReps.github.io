@@ -5,6 +5,10 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="assets/css/main.css" />
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/vs2015.min.css" />
+		
+
+		
 	</head>
 	<body class="single is-preload">
 
@@ -123,7 +127,8 @@
 									We create a spotipy object, that allow us to connect to spotify and extract the data using it's internal functions (<em>playlist_tracks</em>).
 								</p>
 									
-<pre><code>
+								
+<pre class="line-numbers"><code class="python"> 
 client_credentials_manager = SpotifyClientCredentials(client_id = client_id, client_secret = client_secret)
 sp = spotipy.Spotify(client_credentials_manager = client_credentials_manager)		# create the connected object 
 
@@ -267,7 +272,9 @@ def album(data):
 						</article>
 
 					</div>
-
-
+					<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+					<script>hljs.initHighlightingOnLoad();</script>
+					<script src="script.js"></script>
+		
 	</body>
 </html>
