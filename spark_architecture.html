@@ -88,11 +88,11 @@
                                 <br>
 
                                 <b>Client Mode:</b> Client mode occurs when the driver is running on the edge/gateway node. This mode is normally used for development and testing purposes. 
-                                When we have the need to see the results immediately while we perform some transformations on the data. This is recommended for production environments because since the driver is running on the edge node, outside the cluster, if the client machine is disconnected, shut down, or crashes the entire application will crash. (exp. when we use notebooks)
+                                When we have the need to see the results immediately while we perform some transformations on the data. This is not recommended for production environments because since the driver is running on the edge node, outside the cluster, if the client machine is disconnected, shut down, or crashes the entire application will crash. (exp. when we use notebooks)
                                 <br><br>
 
                                 <b>Cluster Mode:</b> Cluster mode occurs when the driver is running as part of the cluster, in one of the worker nodes, as we see in the diagram above. 
-                                This is more suitable for a production environment, where the client packages and deploys the code, and the application will run on the backend.
+                                This is more suitable for a production environment, where the client packages and deploys the code, and the application runs on the backend.
                             
                             </p>
                            

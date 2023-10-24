@@ -109,10 +109,10 @@
 								<p>
 									<b>1- Create the bucket and the respective folder structure on S3</b>
 									<br>
-									For this structire we create 2 main folders, the <em>raw_data</em> folder, and the <em>transformed_data</em> folder, to very sugestive names, that mention the data that will be stored inside of each folder.
+									For this structire we create two main folders, the <em>raw_data</em> folder, and the <em>transformed_data</em> folder, to very sugestive names, that mention the data that will be stored inside of each.
 									Inside the <em>raw_data</em> folder, we will have two more folders, the <em>to_process</em>, that will hold the raw data that was not processed yet, and the <em>processed</em> folder that contains the raw extracted data that was already processed.
 									<br>
-									Inside the transformed_data folder, we have 3 folders, representing the 3 instances we are pulling data to
+									Inside the transformed_data folder, we have three folders, representing the three instances we are pulling the data for analyses, Artists, Songs, and Albums.
 								</p>
 
 								<p>
@@ -122,7 +122,7 @@
 
 									<br><br>
 
-									On this part I worked with two different packages <em>spotipy</em> to connect and extract the data from Spotify and <em>boto3</em> that is used to to create, configure, and manage AWS services, on this particular project was used to interact with the S3 bucket created. 
+									On this part I worked with two different packages <em>spotipy</em> to connect and extract the data from Spotify and <em>boto3</em> that is used to create, configure, and manage AWS services, on this particular project was used to interact with the S3 bucket created. 
 									<br>
 									We create a spotipy object, that allow us to connect to spotify and extract the data using it's internal functions (<em>playlist_tracks</em>).
 								</p>
@@ -157,7 +157,7 @@ client.put_object(
 								<p>
 									<b>3- Transform and Load</b>
 									<br>
-									First we will se if exist files inside the <em>to_process</em> folder. If exist, we will extract the data of each.
+									First, we will see if exist files inside the <em>to_process</em> folder. If there are, we'll extract the data from each of them, one by one, and store it in a variable.
 								
 								</p>
 								<pre><code>
@@ -174,7 +174,7 @@ for file in s3.list_objects(Bucket=Bucket, Prefix=Key)['Contents']:
 </code></pre>
 
 								<p>
-									Then from this data we retrieved the fields from the artists, songs, and albums to do further analyses.
+									Then from this data, we will retrieve the fields from the artists, songs, and albums to do further analyses.
 								</p>
 
 								<pre><code>
@@ -220,7 +220,7 @@ def album(data):
 								<p>
 									<b>5/6- Create Crawler and the tables on AWS Glue Data Catlog</b>
 									<br>
-									The crawler was used to read the data from the transformed data sources, and infered the schema, and the metadta of each one of them. Creating tables on the Data Catalog.
+									The crawler is used to read the data from the transformed data sources and infer the schema and metadata for each of them. Creating the respective tables on the Data Catalog, based on those data sources.
 								</p>
 
 
