@@ -45,8 +45,8 @@
 
 								<p>
 									In this project, we will build an ETL pipeline using Spotify API on AWS. 
-									The pipeline will retrieve data from Spotify API, transform it to a desired format, and load it into an AWS data store.
-									You can access the entier code for this project on my GitHub Page - <a href="https://github.com/PHenriquesReps/spotify-end-to-end-dataengineering-project">Spotify End-to-End Project</a>
+									The pipeline will retrieve data from Spotify API, transform it to a desired format, and load it into an AWS data store. 
+									You can access the entire code for this project on my GitHub Page - <a href="https://github.com/PHenriquesReps/spotify-end-to-end-dataengineering-project">Spotify End-to-End Project</a>
 
 	
 								</p>
@@ -56,12 +56,11 @@
 								</h3>
 
 								<p>
-									This project was developed with AWS services, to alloe me explore it's products, get familiar with it. On this porject I explore some funtionalities,
-									dependencies between services, and the connections between them. 
-									With this project I wanted to create a Data Engineer End-to-End Project, a fully automated production project, that extracts, transforms and loads the data for analysis.
+									This project was developed with AWS services, to allow me to explore its products, and get familiar with it. In this project, I explore some functionalities, dependencies between services, and their connections. 
+									With this project, I wanted to create a Data Engineer End-to-End Project, a fully automated production project, that extracts, transforms, and loads the data for analysis.
 									<br>
 
-									<b>Use Case:</b> Extratc data from the artists, songs and albums, that are present in the Global Top 50 playlist. This playlist is refreshed daily based on the streams of each track. 
+									<b>Use Case:</b> Extract data from the artists, songs, and albums, that are present in the Global Top 50 playlist. This playlist is refreshed daily based on the streams of each track.
 										
 								</p>
 								
@@ -109,10 +108,10 @@
 								<p>
 									<b>1- Create the bucket and the respective folder structure on S3</b>
 									<br>
-									For this structire we create two main folders, the <em>raw_data</em> folder, and the <em>transformed_data</em> folder, to very sugestive names, that mention the data that will be stored inside of each.
-									Inside the <em>raw_data</em> folder, we will have two more folders, the <em>to_process</em>, that will hold the raw data that was not processed yet, and the <em>processed</em> folder that contains the raw extracted data that was already processed.
+									For this structure, we create two main folders, the <em>raw_data</em> folder, and the <em>transformed_data</em> folder, to very suggestive names, that mention the data that will be stored inside of each.
+									Inside the <em>raw_data</em> folder, we will have two more folders, the <em>to_process</em>, which will hold the raw data that was not processed yet, and the processed folder which contains the raw extracted data that was already processed.
 									<br>
-									Inside the transformed_data folder, we have three folders, representing the three instances we are pulling the data for analyses, Artists, Songs, and Albums.
+									Inside the <em>transformed_data</em> folder, we have three folders, representing the three instances we are pulling the data for analyses, Artists, Songs, and Albums.
 								</p>
 
 								<p>
@@ -122,9 +121,9 @@
 
 									<br><br>
 
-									On this part I worked with two different packages <em>spotipy</em> to connect and extract the data from Spotify and <em>boto3</em> that is used to create, configure, and manage AWS services, on this particular project was used to interact with the S3 bucket created. 
+									In this part I worked with two different packages <em>spotipy</em> to connect and extract the data from Spotify and boto3 that is used to create, configure, and manage AWS services, In this particular project was used to interact with the S3 bucket created.
 									<br>
-									We create a spotipy object, that allow us to connect to spotify and extract the data using it's internal functions (<em>playlist_tracks</em>).
+									We create a Spotify object, that allows us to connect to Spotify and extract the data using its internal functions (<em>playlist_tracks</em>).
 								</p>
 									
 								
@@ -203,9 +202,9 @@ def album(data):
 								<p>
 									<b>4- Add Triggers</b>
 									<br>
-									The two triggers were added to the pipeline, automating the pipeline run, based on the required schedule (weekly), and on the existence of new data on the to_process folder. 
+									The two triggers were added to the pipeline, automating the pipeline run, based on the required schedule (weekly), and on the existence of new data in the to_process folder. 
 									<br><br>
-									<b>EventBridge (CloudWatch Events)</b>, this first trigger is used to activate the lambda functio that will extract the data from the Spotify API, on a weekly basis.
+									<b>EventBridge (CloudWatch Events)</b>, this first trigger is used to activate the lambda function that will extract the data from the Spotify API, on a weekly basis.
 									<br><br>
 									<b>S3</b> this trigger is launched when there are JSON files in the to_process folder and will activate the lambda function.
 									<br><br>
@@ -218,7 +217,7 @@ def album(data):
 
 
 								<p>
-									<b>5/6- Create Crawler and the tables on AWS Glue Data Catlog</b>
+									<b>5/6- Create Crawler and the tables on AWS Glue Data Catalog</b>
 									<br>
 									The crawler is used to read the data from the transformed data sources and infer the schema and metadata for each of them. Creating the respective tables on the Data Catalog, based on those data sources.
 								</p>

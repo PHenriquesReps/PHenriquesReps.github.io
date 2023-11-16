@@ -1,0 +1,319 @@
+<html>
+	<head>
+		<title>Pedro Henriques</title>
+		<link rel="icon" type="image/x-icon" href="/images/icon.png">
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+	</head>
+	<body class="single is-preload">
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Header -->
+                <header id="header">
+                    <h1><a href="index.html">Pedro Henriques</a></h1>
+                    <nav class="links">
+                        <ul>
+                            <li><a href="projects.html">Projects</a></li>
+                            <li><a href="posts.html">Posts</a></li>
+                            <li><a href="activities.html">Activities</a></li>								
+                        </ul>
+                    </nav>				
+                </header>
+
+				<!-- Main -->
+				<div id="main">
+
+					<!-- Post -->
+						<article class="post1">
+							<header>
+								<div class="title">
+									<h2>Calculate the Initial Number of Partitions in Spark</h2>
+								</div>
+								
+								<div class="meta">
+									<time class="published" datetime="2023-11-16">November 16, 2023</time>
+									<a href="index.html" class="author"><span class="name">Pedro Henriques</span><img src="images/Foto_Pass.jpeg" alt="" /></a>
+								</div>
+							</header>
+							<span class="image featured1"><img src="images/initial_partitions_post.jpg" alt="" /></span>
+							<p>
+								Knowing the initial number of partitions is quite important for a Data Engineer, it will allow us to understand the amount of work our cluster will have, how many resources it will use, and the parallelism we can achieve. 
+                                The number of tasks on the job will be equal to the number of partitions.
+                                <br>
+                                <br>
+                                Earlier when we talked about the RDD internals (link to post), we said that the number of partitions would be equal to the number of blocks. 
+                                The default value size of blocks is 128MB.  So, to calculate the number of blocks we divide the file size by 128. 
+                                We could alter the block size value, to the size we wanted, but this was the only way to calculate the number of partitions on the RDD Level. 
+                                However, on the Higher-Level APIs of Spark, we have a different way to calculate the number of partitions.
+                            </p>
+
+                            <p>
+                                To go through this topic, we will understand some core concepts, key configurations from spark, and calculations we must perform. 
+                            </p>
+
+                            <section>
+                                <div class="row">
+                                    <div class="col-12-medium">
+                                        <p>We will perform the calculations for two different categories and explore a couple of scenarios: </p>
+                                        <ul class="alt">
+                                            <li>1-	Calculate the number of partitions for one single file. </li>
+											<li>2-	Calculate the number of partitions for multiple small files. </li>                                
+                                    </div>
+                                </div>
+                            </section>
+
+                            <h3>
+                                Key Configurations
+                            </h3>
+                            <p>
+                                In every Spark Cluster, we have these three configurations:
+                                <br> 
+                                <b>maxPartitionBytes</b> (Spark.sql.files.maxPartitionBytes) – defines the max size of each partition, if the size of the file is bigger spark will divide it into multiple partitions. 
+                                The default number for this is 134217728 bytes = 128MB.
+                                <br> <br>
+                                <b>defaultParallelism</b> (Spark.sparkContext.defaultParallelism) - The default value for this configuration is set to the number of all cores on all nodes in a cluster (this means the value of the existent CPU Cores of the cluster available for our job at the beginning of the process).
+                                <br> <br>
+                                <b>openCostInBytes</b> (Spark.conf.get(“spark.sql.files.openCostInBytes”)) – That represents the cost it takes to open a file in bytes. 
+                                The default value is set to 4MB.
+							</p>
+
+                            <h3>
+                                Calculating Partition Size
+                            </h3>
+
+                            <p>
+                                Partition size is a core element to calculate the number of initial partitions, if we can calculate the partition size, we will be able to determine the number of partitions.
+                            </p>
+
+                            <p>
+                                Normally, we should not have a partition size of more than 128 MB, having a partition size greater than that could lead to slower performance, out-of-memory exceptions, and other issues on the machine related to that. 
+                                <br> 
+                                Despite 128MB being our size of reference, in some scenarios, it’s best to have a smaller size than that. This scenario happens when we have more CPU Cores available than partitions. Don’t worry if you don’t understand what I mean here, on the scenarios I will revise and explain it with examples. <b>**</b> 
+                            </p>
+
+
+                            <section>
+                                <div class="row">
+                                    <div class="col-12-medium">
+                                        <p>We use this method to calculate the partition size: </p>
+                                        <ul class="alt">
+                                            <li><b>Partition Size = Min(maxPartitionBytes, file size / defaultParallelism)</b> </li>                              
+                                    </div>
+                                </div>
+                            </section>
+                            <p>
+                                The calculation of the partition size will be the minimum value between the Max Partition Bytes configuration, and the total file size divided by the Default Parallelism we have at the beginning of the process.
+                                <br> <br>
+                                Is based on the partition size that we will determine the number of initial partitions, so it’s important to know how Spark will calculate it so that we can understand the number of initial partitions.
+
+                            </p>
+
+                            <h3>
+                                1- Single File
+                            </h3>
+
+                            <p>
+                                For this first category, we will explore 2 scenarios. For both scenarios, we will read the same file and maintain the same Max partition Bytes, but we will change the Default Parallelism, and see if the number of available resources changes, the number of initial partitions will change and why.
+                            </p>
+                            <p>
+                                We will use an orders file as an example for both scenarios.
+                                <br>
+                                Orders file size ~ 1.1GB 
+                                <br>
+                                Max Partition Bytes = 128MB
+                            </p>
+                            <div>
+                                <img style=" display: block; width:35%; margin-left: auto; margin-right: auto;" src="images/maxPartitionBytes.png" alt="" />
+                                <br>
+                            </div>
+
+                            <h3>
+                                Scenario 1
+                            </h3>
+                            
+                            <p>
+                                Default Parallelism = 2 CPU Cores
+                            </p>
+
+                            <div>
+                                <img style=" display: block; width:35%; margin-left: auto; margin-right: auto;" src="images/DefaulParallelism.png" alt="" />
+                                <br>
+                            </div>
+
+                            <p>
+                                We have 2 executors each with 1GB of memory and 1 CPU Core.
+                                <br>
+                                That is a total of 2 CPU cores, so we can run a maximum of 2 tasks in parallel.
+                                <br><br>
+                                Partition Size = Min(128, 1126/2) = Min(128, 563) = 128MB
+                                <br><br>
+                                Calculating the partition size, we will divide the file size for the 2 CPU cores we have available. 
+                                The minimum value between the two will be 128MB, so the partition size is equal to 128 MB.
+                                <br><br>
+                                Number of Partitions = 1.1GB/128 = 9 partitions
+                                <br>
+                                We will have 9 initial partitions in this scenario.
+
+                            </p>
+
+                            <div>
+                                <img style=" display: block; width:30%; margin-left: auto; margin-right: auto;" src="images/Num_partitions_s1.png" alt="" />
+                                <br>
+                            </div>
+
+                            <p>
+                                Regarding the achieved parallelism, since we have only 2 CPU cores, we will have 4 rounds of 2 tasks running in parallel + 1 task.
+                            </p>
+
+
+                            <h3>
+                                Scenario 2 <b>**</b>
+                            </h3>
+                            
+                            <p>
+                                Default Parallelism = 16 CPU Cores
+                            </p>
+
+                            <div>
+                                <img style=" display: block; width:30%; margin-left: auto; margin-right: auto;" src="images/default_parallelism_s2.png" alt="" />
+                                <br>
+                            </div>
+
+                            <p>
+                                For this let’s assume we have 4 executors each with 21GB of memory and 4 CPU Cores. 
+                                This makes a total of 16 CPU Cores, so in this case we can run a maximum of 16 tasks in parallel.
+                                <br><br>
+                                Partition Size = Min(128, 1126/2) = Min(128, 563) = 128MB
+                                <br><br>
+                                We will divide the file size by the number of CPU cores we have available (given to us), which is 16. 
+                                <br>
+                                The partition size now will be equal to 71MB, that happens because we augment the number of CPU cores, which means we have more power/resources, and that we can use more parallelism to compute the file. So, we can have partitions with less size.
+
+                                <br><br>
+                                Number of Partitions = 1.1GB/71 ~ 16 partitions 
+                                <br><br>
+                                Since we have 16 CPU cores, if we keep going with the 128MB partition size we would only have 9 partitions and 7 CPU cores would have been sitting idle, so to use the max resources and take advantage of all of our cluster power, we use a 64MB partition size. That will allow us to run all the tasks in parallel, and since the tasks are smaller the process will take less time to complete. So, in this way, we optimize the running process.
+                                <br>
+                                We will have 16 initial partitions.
+
+
+                            </p>
+
+                            <div>
+                                <img style=" display: block; width:28%; margin-left: auto; margin-right: auto;" src="images/num_partitions_s2.png" alt="" />
+                                <br>
+                            </div>
+
+                            <p>
+                                Regarding the parallelism, we will have 1 round of 16 tasks running in parallel.
+                            </p>
+
+
+
+                            <h3>
+                                2- Multiple Files 
+                            </h3>
+
+                            <p>
+                                When dealing with multiple files the 3 key configurations will be important.
+                                <br>
+                                Those 3 configurations will determine everything, the Max Partition Bytes (128MB) and the Default Parallelism (2 CPU Cores) will be used to calculate the partition size like in the previous category, the Open Cost Bytes will be an extra cost, that will be added whenever we read a single file.
+                                <br><br>
+                                We can consider the Open Cost as the time it takes to open one file, which is equal to 4 MB (i.e. the time to open the file is equal to the time it could have taken to process/read 4 MB of data).     
+                            </p>
+
+                            <div>
+                                <img style=" display: block; width:35%; margin-left: auto; margin-right: auto;" src="images/open_cost.png" alt="" />
+                                <br>
+                            </div>
+
+
+                            <h3>
+                                Scenario 1
+                            </h3>
+                            
+                            <p>
+                                In this scenario, we will take the same orders folder from the previous category, repartition the file in 20 partitions, and write to the disk. After we will read the file from the disk, and check how the partition size and the Cost per read interfere with the number of initial partitions.
+                                <br><br>
+                                Orders file  size ~ 1.1GB 
+                            </p>
+
+                            <div>
+                                <img style=" display: block; width:55%; margin-left: auto; margin-right: auto;" src="images/multi_file_repartition.png" alt="" />
+                                <br>
+                            </div>
+
+                            <p>
+                                We have created a folder with 20 files of 40.1MB each.
+                            </p>
+
+                            <div>
+                                <img style=" display: block; width:45%; margin-left: auto; margin-right: auto;" src="images/multi_file_size.png" alt="" />
+                                <br>
+                            </div>
+
+                            <p>
+                                How many partitions will we have?
+                            </p>
+
+                            <p>
+                                The default parallelism is equal to 2 CPU cores and the maximum partition bytes is equal to 128MB.
+                                <br>
+                                For the calculation of the partition size when we have a multiple-file folder, we use the total size of the folder we are reading and not the size of the individual file.
+                                <br><br>
+                                Partition Size = Min(128, 1126/2) = Min(128, 563) = 128MB
+                                <br><br>
+                                Based on this calculation of the size we can determine that the partition size is equal to 128MB.
+                                <br><br>
+                                So, after determining the partition size we could think that we can fit 3 files in each partition since each file is only 40.1MB 
+                                <br>
+                                40.1 + 40.1 + 40.1 = 120.3MB
+                                <br>
+                                If we ignored the cost to open the files we should end up with 9 partitions, the same as in the first scenario of the One file category, since the variables are the same.
+                                <br>
+                                However, even though each file size is 40.1 MB, we could only join 2 files to create 1 partition. This happens because of the Open Cost, for each file we open we have a 4MB cost.
+                                <br><br>
+                                If we try to add 3 files plus the cost of the opening for each file, we end up with a bigger size than the partition size.
+                                <br>
+                                40.1 + 40.1+ 40.1 + 4 + 4 + 4 = 132.3 MB 
+                                <br><br>
+                                Number of Partitions = 10
+                            </p>
+
+                            <div>
+                                <img style=" display: block; width:30%; margin-left: auto; margin-right: auto;" src="images/num_partitions_m1.png" alt="" />
+                                <br>
+                            </div>
+
+
+
+                            <h3>
+                                Conclusion
+                            </h3>
+
+                            <p>
+                                In conclusion, understanding how the initial number of partitions in Apache Spark are calculated is important to know how the spark internals work, how our job will be optimized, and how much cluster resources and parallelism will we have. The determination of the initial partitions involves careful consideration of key configurations such as maxPartitionBytes, defaultParallelism, and openCostInBytes.
+                            
+                            </p>
+                           
+
+                            <p>
+                                For a single-file scenario, we can see that Spark is smart and can dynamically adjust the partition size allowing for efficient resource utilization, minimizing idle cores, and optimizing processing time.
+                            </p>
+            
+                            <p>
+                                In the context of reading multiple files, the open cost becomes a crucial factor. Despite aiming for an ideal partition size based on file sizes, the presence of an open cost may limit the number of files that can be accommodated in a single partition.
+                                <br><br>
+                                Hope you like it. See you soon. 👋
+                            </p>
+
+
+
+                </div>
+
+            </div>
+    </body>
+</html>
