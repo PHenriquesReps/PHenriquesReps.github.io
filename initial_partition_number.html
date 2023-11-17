@@ -44,7 +44,7 @@
                                 The number of tasks on the job will be equal to the number of partitions.
                                 <br>
                                 <br>
-                                Earlier when we talked about the RDD internals (link to post), we said that the number of partitions would be equal to the number of blocks. 
+                                Earlier when we talked about the <a href="https://phenriquesreps.github.io/sparkrdd.html">RDD internalst</a>, we said that the number of partitions would be equal to the number of blocks. 
                                 The default value size of blocks is 128MB.  So, to calculate the number of blocks we divide the file size by 128. 
                                 We could alter the block size value, to the size we wanted, but this was the only way to calculate the number of partitions on the RDD Level. 
                                 However, on the Higher-Level APIs of Spark, we have a different way to calculate the number of partitions.
