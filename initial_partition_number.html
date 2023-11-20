@@ -121,7 +121,7 @@
                             <p>
                                 We will use an orders file as an example for both scenarios.
                                 <br>
-                                Orders file size ~ 1.1GB 
+                                Orders file size ~ 1.1GB ~ 1126MB
                                 <br>
                                 Max Partition Bytes = 128MB
                             </p>
@@ -186,7 +186,7 @@
                                 For this let’s assume we have 4 executors each with 21GB of memory and 4 CPU Cores. 
                                 This makes a total of 16 CPU Cores, so in this case we can run a maximum of 16 tasks in parallel.
                                 <br><br>
-                                Partition Size = Min(128, 1126/2) = Min(128, 563) = 128MB
+                                Partition Size = Min(128, 1126/16) = Min(128, 71) ~ 71MB
                                 <br><br>
                                 We will divide the file size by the number of CPU cores we have available (given to us), which is 16. 
                                 <br>
@@ -195,7 +195,7 @@
                                 <br><br>
                                 Number of Partitions = 1.1GB/71 ~ 16 partitions 
                                 <br><br>
-                                Since we have 16 CPU cores, if we keep going with the 128MB partition size we would only have 9 partitions and 7 CPU cores would have been sitting idle, so to use the max resources and take advantage of all of our cluster power, we use a 64MB partition size. That will allow us to run all the tasks in parallel, and since the tasks are smaller the process will take less time to complete. So, in this way, we optimize the running process.
+                                Since we have 16 CPU cores, if we keep going with the 128MB partition size we would only have 9 partitions and 7 CPU cores would have been sitting idle, so to use the max resources and take advantage of all of our cluster power, we use a 71MB partition size. That will allow us to run all the tasks in parallel, and since the tasks are smaller the process will take less time to complete. So, in this way, we optimize the running process.
                                 <br>
                                 We will have 16 initial partitions.
 
@@ -276,9 +276,13 @@
                                 <br>
                                 However, even though each file size is 40.1 MB, we could only join 2 files to create 1 partition. This happens because of the Open Cost, for each file we open we have a 4MB cost.
                                 <br><br>
-                                If we try to add 3 files plus the cost of the opening for each file, we end up with a bigger size than the partition size.
+                                If we try to add 3 files plus the cost of the opening for each file, we end up with a bigger size than the max partition size allowed.
                                 <br>
-                                40.1 + 40.1+ 40.1 + 4 + 4 + 4 = 132.3 MB 
+                                40.1 + 40.1 + 40.1 + 4 + 4 + 4 = 132.3MB 
+                                <br>
+                                Each partition has 2 files, so it will create 10 partitions.
+                                <br>
+                                40.1 + 40.1 + 4 + 4 = 88.2MB
                                 <br><br>
                                 Number of Partitions = 10
                             </p>
